@@ -1,6 +1,6 @@
 import torch
 from torchvision import models
-import torchvision.transforms as T
+import torchvision.transforms as tt
 import numpy as np
 
 fcn = models.segmentation.fcn_resnet101(pretrained=True).eval()
@@ -30,13 +30,13 @@ def decode_segmap(image, nc=21):
     return rgb
 
 def resizeImg(img,dimension=256):
-    t=T.Compose([T.Resize(dimension)])
+    t=tt.Compose([tt.Resize(dimension)])
     img=t(img)
     return img
 
 def generateMask(img,net=fcn):
-    trf = T.Compose([T.ToTensor(), 
-                   T.Normalize(mean = [0.485, 0.456, 0.406], 
+    trf = tt.Compose([tt.ToTensor(), 
+                   tt.Normalize(mean = [0.485, 0.456, 0.406], 
                                std = [0.229, 0.224, 0.225])])
     inp = trf(img).unsqueeze(0)
     out = net(inp)['out']
