@@ -43,3 +43,11 @@ def generateMask(img,net=fcn):
     om = torch.argmax(out.squeeze(), dim=0).detach().cpu().numpy()
     rgb = decode_segmap(om)
     return rgb
+
+def standardize(x):
+    #This function takes as input a numpy array and returns a stadardized numpy array of the same dimensions.
+    #Sample input: np.array([[1,2,3],[4,5,6]])
+    #Sample output: np.array([[-1,-1,-1],[1,1,1]])
+    std = np.std(x, axis=0)
+    mean = np.mean(x, axis=0)
+    return (x - mean)/ std
